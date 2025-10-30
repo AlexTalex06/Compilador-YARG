@@ -1,4 +1,3 @@
-# lexico.py
 import tokenize
 from io import BytesIO
 from dataclasses import dataclass
@@ -13,7 +12,6 @@ class Token:
     columna: int
     valor: Optional[str] = None
 
-# Palabras reservadas de nuestro lenguaje YARGC
 PALABRAS_RESERVADAS = {
     "def", "si", "sino", "para", "mientras", "retornar",
     "Verdadero", "Falso", "Nada", "imprimir"
@@ -31,7 +29,6 @@ class Lexer:
 
     def tokenizar(self) -> List[Token]:
         codigo_bytes = self.codigo.encode("utf-8")
-
         try:
             for tok in tokenize.tokenize(BytesIO(codigo_bytes).readline):
                 tipo = tokenize.tok_name[tok.type]
@@ -69,13 +66,6 @@ class Lexer:
 
                 elif tipo == "STRING":
                     tipo_norm = "CADENA"
-                    if not (lexema.startswith(("'", '"')) and lexema.endswith(("'", '"'))):
-                        self.manejador_errores.agregar_error(
-                            "léxico",
-                            f"Cadena sin cerrar: {lexema}",
-                            renglon,
-                            columna
-                        )
                     valor = lexema.strip('"').strip("'")
 
                 elif tipo == "COMMENT":
@@ -103,7 +93,6 @@ class Lexer:
             msg, (renglon, columna) = e.args[0], e.args[1]
             self.manejador_errores.agregar_error("léxico", msg, renglon, columna)
 
-        # Añadir EOF si no está
         if not self.tokens or self.tokens[-1].tipo != "EOF":
             self.tokens.append(Token("EOF", "", 0, 0))
 
