@@ -1,0 +1,6 @@
+# Programa de ejemplo en YARGC
+def suma(a, b):
+    retornar a + b
+
+x = suma(2, 3)
+imprimir(x)
